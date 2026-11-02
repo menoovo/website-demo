@@ -1,0 +1,5 @@
+# Gilt erst, wenn die Seite unter einer eigenen Domain im Wurzelverzeichnis liegt.
+User-agent: *
+Allow: /
+
+Sitemap: https://menoovo.github.io/website-demo/sitemap.xml

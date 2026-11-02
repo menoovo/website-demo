@@ -31,6 +31,8 @@ MAIL = "hallo@heidehof-lueneburg.de"
 GEO = (53.2272, 10.4031)
 OSM = f"https://www.openstreetmap.org/?mlat={GEO[0]}&mlon={GEO[1]}#map=15/{GEO[0]}/{GEO[1]}"
 
+XMAS_BIS = "2026-12-21"  # Aktion Weihnachtsfest: ab diesem Datum ausgeblendet
+
 NAV = [
     ("speisekarte/", "Speisekarte"),
     ("familien/", "Familien"),
@@ -38,6 +40,7 @@ NAV = [
     ("ausflug/", "Ausflug"),
     ("mittagstisch/", "Mittagstisch"),
     ("regionale-kueche/", "Unsere Küche"),
+    ("weihnachten/", "Weihnachten"),
 ]
 
 # ---------------------------------------------------------------- Öffnungszeiten
@@ -309,7 +312,7 @@ def menu_schema():
 # ---------------------------------------------------------------- Seitenrahmen
 def kopf(seite, R):
     navlis = "".join(
-        f'<li><a href="~/{u}"{" aria-current=\"page\"" if seite["pfad"] == u else ""}>{n}</a></li>' for u, n in NAV
+        f'<li{" data-bis=" + chr(34) + XMAS_BIS + chr(34) if u == "weihnachten/" else ""}><a href="~/{u}"{" class=nav-hervor" if u == "weihnachten/" else ""}{" aria-current=\"page\"" if seite["pfad"] == u else ""}>{n}</a></li>' for u, n in NAV
     )
     return f"""<a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
 <header class="site-header">
@@ -357,6 +360,7 @@ def fuss():
           <li><a href="~/speisekarte/">Speisekarte</a></li>
           <li><a href="~/familien/">Kinderfreundliches Restaurant</a></li>
           <li><a href="~/feiern/">Feiern &amp; Gruppen</a></li>
+          <li data-bis="2026-12-21"><a href="~/weihnachten/">Weihnachtsmenü am 20.12.</a></li>
           <li><a href="~/ausflug/">Ausflugslokal Lüneburger Heide</a></li>
           <li><a href="~/mittagstisch/">Mittagstisch Lüneburg</a></li>
           <li><a href="~/regionale-kueche/">Regionale Küche &amp; Erzeuger</a></li>
@@ -486,6 +490,18 @@ startseite = f"""
     </div>
   </div>
   <a class="scroll-hinweis" href="#willkommen">Entdecken</a>
+</section>
+
+<section class="event-teaser" data-bis="2026-12-21" aria-label="Aktion: Weihnachtsfest am 20. Dezember">
+  <div class="wrap event-teaser-innen" data-reveal>
+    <div class="event-datum"><span>Sonntag</span><strong>20</strong><span>Dezember</span></div>
+    <div>
+      <p class="kicker">Weihnachtsfest im HEIDEHOF</p>
+      <h2>Weihnachtsmenü für 50 € – und der Weihnachtsmann kommt!</h2>
+      <p>Vier festliche Gänge mit Gans, Heidschnucke oder vegetarisch, ein eigenes Kinder-Menü und um 14 &amp; 19 Uhr ein Besuch mit Geschenken.</p>
+    </div>
+    <a class="btn btn--creme" href="~/weihnachten/">Plätze sichern</a>
+  </div>
 </section>
 
 <section class="sektion papier" id="willkommen">
@@ -725,7 +741,7 @@ familien = seiten_hero(
       <h2>Die Schnucken-Party</h2>
       <p class="lead">Kindergeburtstag ohne Chaos zu Hause: Wir decken einen bunten Tisch, backen den Kuchen und haben eine Heide-Schatzsuche im Garten vorbereitet.</p>
       <p>19 € pro Kind mit Kuchen, Kindergericht, Limonade und kleinem Geschenk. Ab 6 Kindern, Erwachsene bestellen à la carte.</p>
-      <a class="btn btn--creme" href="~/feiern/#anfrage">Kindergeburtstag anfragen</a>
+      <div class="btn-reihe"><a class="btn btn--creme" href="~/feiern/#anfrage">Kindergeburtstag anfragen</a><a class="btn btn--linie" href="~/weihnachten/" data-bis="2026-12-21">20.12.: Der Weihnachtsmann kommt</a></div>
     </div>
   </div>
 </section>
@@ -785,7 +801,7 @@ feiern = seiten_hero(
         <li>Hochzeit im kleinen Kreis und Polterabend</li>
         <li>Goldene Hochzeit und Familientreffen</li>
         <li>Trauerkaffee und Gedenkessen</li>
-        <li>Firmenfeier, Weihnachtsfeier und Teamessen</li>
+        <li>Firmenfeier, Weihnachtsfeier und Teamessen – oder unser <a href="~/weihnachten/">Weihnachtsfest am 20. Dezember</a></li>
         <li>Kindergeburtstag als „Schnucken-Party“</li>
       </ul>
     </div>
@@ -1113,6 +1129,166 @@ SEITEN.append({
     "schema": [faq_schema(faq_res), brotkrumen_schema([("", "Start"), ("reservieren/", "Reservieren")])],
 })
 
+# ---------------------------------------------------------------- Weihnachten (Aktion 20.12.)
+XMAS_DATUM = "2026-12-20"
+faq_xmas = [
+    ("Muss ich für das Weihnachtsfest reservieren?", "Ja, bitte. Die Plätze sind begrenzt und am 20. Dezember servieren wir ausschließlich das Weihnachtsmenü. Reserviere online oder ruf uns an."),
+    ("Was kostet das Weihnachtsfest für Kinder?", "Für Kinder bis 12 Jahre gibt es ein eigenes Kinder-Weihnachtsmenü für 19 €. Kinder unter 3 Jahren essen kostenlos mit. Der Besuch vom Weihnachtsmann ist natürlich inklusive."),
+    ("Wann kommt der Weihnachtsmann?", "Der Weihnachtsmann besucht beide Runden: um 14:00 Uhr in der Mittagsrunde und um 19:00 Uhr in der Abendrunde."),
+    ("Wie funktioniert das mit den Geschenken?", "Du kannst bis Freitag, 18. Dezember, ein kleines, mit dem Namen deines Kindes beschriftetes Geschenk bei uns abgeben. Der Weihnachtsmann überreicht es dann persönlich. Ohne Abgabe bekommt jedes Kind eine kleine Überraschung von uns."),
+    ("Gibt es das Menü auch vegetarisch?", "Ja. Beim Hauptgang kannst du zwischen Gänsekeule, Heidschnucken-Schmorbraten und einem vegetarischen Maronen-Pilz-Wellington wählen. Vorspeise, Suppe und Dessert gibt es ebenfalls vegetarisch."),
+    ("Können wir mit einer größeren Gruppe kommen?", "Gern – bis 12 Personen reservierst du ganz normal. Für größere Gruppen und Firmen-Weihnachtsfeiern melde dich am besten über unsere Seite für Feiern."),
+]
+gaenge = [
+    ("Vorspeise", "Feldsalat mit Heidehonig-Senf-Dressing", "Warmer Ziegenkäse-Taler, karamellisierte Walnüsse, Birne"),
+    ("Suppe", "Klare Gänsebrühe mit Grießklößchen", "Vegetarisch: Maronen-Cremesuppe mit Apfel"),
+    ("Hauptgang · zur Wahl", "Knusprige Gänsekeule", "Apfelrotkohl, Kartoffelklöße, Maronen und Gänsejus"),
+    ("", "oder Heidschnucken-Schmorbraten", "Wacholderjus, Rosenkohl, Kartoffelgratin"),
+    ("", "oder Maronen-Pilz-Wellington", "Rotkohl, Pastinakenpüree, Rotweinsoße (vegetarisch)"),
+    ("Dessert", "Bratapfel-Parfait", "Vanillesoße, Spekulatius-Crumble und Preiselbeeren"),
+]
+gang_html = "".join(
+    (f'<p class="gang-art">{a}</p>' if a else "") + f'<h3>{t}</h3><p class="gang-text">{d}</p>' + ('<span class="gang-trenner" aria-hidden="true">✦</span>' if a and i < len(gaenge) - 1 and gaenge[i + 1][0] else "")
+    for i, (a, t, d) in enumerate(gaenge)
+)
+xmas = f"""
+<header class="seiten-hero seiten-hero--weihnacht">
+  <div class="hero-bild">{img("weihnachtsbaum", "Geschmückter Weihnachtsbaum mit warmen Lichtern", "100vw", eager=True)}</div>
+  <div class="wrap">
+    {brotkrumen([("", "Start"), ("weihnachten/", "Weihnachtsfest")])}
+    <p class="kicker">Sonntag, 20. Dezember 2026</p>
+    <h1>Weihnachtsfest im HEIDEHOF: Weihnachtsmenü &amp; Besuch vom Weihnachtsmann</h1>
+    <p class="lead">Vier festliche Gänge für 50 €, ein eigenes Menü für die Kleinen – und mittendrin ein ganz besonderer Gast mit rotem Mantel und langem Bart. Das schönste Familienessen vor Heiligabend.</p>
+    <div class="btn-reihe"><a class="btn btn--creme" href="#plaetze">Plätze reservieren</a><a class="btn btn--linie" href="#menue">Zum Weihnachtsmenü</a></div>
+  </div>
+</header>
+
+<section class="sektion sektion--gruen" aria-label="Das Wichtigste auf einen Blick">
+  <div class="wrap fakten">
+    <div class="event-datum" data-reveal><span>Sonntag</span><strong>20</strong><span>Dezember</span></div>
+    <div class="fakt" data-reveal style="--verz:.08s"><strong>50 €</strong><span>Weihnachtsmenü in vier Gängen pro Person</span></div>
+    <div class="fakt" data-reveal style="--verz:.16s"><strong>14 &amp; 19 Uhr</strong><span>kommt der Weihnachtsmann – mit Geschenken</span></div>
+    <div class="fakt" data-reveal style="--verz:.24s"><strong>19 €</strong><span>Kinder-Weihnachtsmenü, unter 3 Jahren gratis</span></div>
+  </div>
+</section>
+
+<section class="sektion papier" id="menue">
+  <div class="wrap split">
+    <div class="menuekarte" data-reveal>
+      <img src="~/assets/logo/heidehof-zeichen-gruen.svg" alt="" width="150" height="65" class="menuekarte-logo">
+      <p class="kicker">Weihnachtsmenü · 20. Dezember</p>
+      {gang_html}
+      <p class="menuekarte-preis">50 € pro Person</p>
+    </div>
+    <div data-reveal style="--verz:.15s">
+      <p class="kicker">Festlich, regional, ohne Schnickschnack</p>
+      <h2>Ein Menü wie ein Familienfest</h2>
+      <p class="lead">Gans, Heidschnucke oder vegetarisches Wellington: Für unser Weihnachtsmenü kochen wir mit dem Besten, was die Heide im Winter hergibt.</p>
+      <p>Wir servieren an diesem Tag zwei Runden: <strong>mittags ab 12:00 Uhr</strong> und <strong>abends ab 17:30 Uhr</strong>. So bleibt genug Zeit für alle vier Gänge, den Besuch vom Weihnachtsmann und einen zweiten Glühwein am Kamin.</p>
+      <h3>Für kleine Heidjer: Kinder-Weihnachtsmenü 19 €</h3>
+      <p>Kleine Tomatensuppe, Hähnchen-Schnitzel mit Kartoffelpüree (oder Nudeln mit Tomatensoße) und ein Schoko-Lebkuchen-Stern mit Vanilleeis. Für Kinder bis 12 Jahre, unter 3 Jahren essen sie gratis.</p>
+      <p><a class="pfeil-link" href="#plaetze">Jetzt Plätze sichern</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="sektion sektion--sand">
+  <div class="wrap split split--umgekehrt">
+    <div class="split-bild split-bild--quer" data-reveal>{img("familie-weihnachtsbaum", "Familie schmückt gemeinsam den Weihnachtsbaum", "(max-width: 860px) 100vw, 50vw")}{img("geschenke-leinen", "In Packpapier und Bindfaden verpackte Geschenke", "(max-width: 860px) 45vw, 22vw", "bild-klein")}</div>
+    <div data-reveal style="--verz:.15s">
+      <p class="kicker">Ho, ho, ho!</p>
+      <h2>Der Weihnachtsmann kommt in den HEIDEHOF</h2>
+      <p class="lead">Um 14:00 und um 19:00 Uhr stapft der Weihnachtsmann durch den Gastraum, hat ein offenes Ohr für jeden Wunschzettel und einen gut gefüllten Sack dabei.</p>
+      <ul class="haken">
+        <li><strong>Geschenke-Service:</strong> Gib bis Freitag, 18. Dezember, ein kleines, beschriftetes Geschenk bei uns ab – der Weihnachtsmann überreicht es persönlich.</li>
+        <li>Ohne Abgabe bekommt jedes Kind eine kleine Überraschung von uns.</li>
+        <li>Gedichte und Lieder sind herzlich willkommen, aber keine Pflicht.</li>
+        <li>Fotos mit dem Weihnachtsmann vor unserem Heide-Weihnachtsbaum.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sektion">
+  <div class="wrap">
+    <div class="sektion-kopf" data-reveal><p class="kicker">Ablauf am 20. Dezember</p><h2>Zwei Runden, ein Fest</h2></div>
+    <ol class="zeitstrahl" data-reveal>
+      <li><strong>12:00 Uhr</strong><span>Mittagsrunde: Empfang mit Punsch, danach das Weihnachtsmenü</span></li>
+      <li><strong>14:00 Uhr</strong><span>Der Weihnachtsmann besucht die Mittagsrunde</span></li>
+      <li><strong>17:30 Uhr</strong><span>Abendrunde: Empfang mit Punsch, danach das Weihnachtsmenü</span></li>
+      <li><strong>19:00 Uhr</strong><span>Der Weihnachtsmann besucht die Abendrunde</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="sektion sektion--hell" id="plaetze">
+  <div class="wrap split" style="align-items:start">
+    <div data-reveal>
+      <p class="kicker">Plätze sind begrenzt</p>
+      <h2>Jetzt Plätze für das Weihnachtsfest sichern</h2>
+      <p class="lead">Am 20. Dezember servieren wir ausschließlich das Weihnachtsmenü – bitte reserviere vorab.</p>
+      <p>Lieber telefonisch? Ruf uns an unter <a href="tel:{TEL}"><strong>{TEL_ANZEIGE}</strong></a>.</p>
+      <p>Mehr als 12 Personen oder eine Firmen-Weihnachtsfeier? <a href="~/feiern/#anfrage">Hier entlang</a>.</p>
+    </div>
+    <div class="formular-box" data-reveal style="--verz:.15s">
+      <form class="formular" data-demo-formular="xmas-ok" novalidate>
+        <div class="feld voll"><label for="x-runde">Runde am 20.12.</label><select id="x-runde" name="runde" required><option value="">Bitte wählen</option><option>Mittagsrunde ab 12:00 Uhr</option><option>Abendrunde ab 17:30 Uhr</option></select></div>
+        <div class="feld"><label for="x-erw">Erwachsene (50 €)</label><input id="x-erw" name="erwachsene" type="number" min="1" max="12" value="2" inputmode="numeric" required></div>
+        <div class="feld"><label for="x-kinder">Kinder (19 €)</label><input id="x-kinder" name="kinder" type="number" min="0" max="10" value="0" inputmode="numeric"></div>
+        <div class="feld"><label for="x-name">Name</label><input id="x-name" name="name" autocomplete="name" required></div>
+        <div class="feld"><label for="x-tel">Telefon</label><input id="x-tel" name="telefon" type="tel" autocomplete="tel" required></div>
+        <div class="feld voll"><label for="x-mail">E-Mail</label><input id="x-mail" name="email" type="email" autocomplete="email" required></div>
+        <div class="feld voll"><label for="x-text">Hauptgang-Wünsche &amp; Hinweise</label><textarea id="x-text" name="nachricht" placeholder="z. B. 2 × Gans, 1 × vegetarisch, Hochstuhl, Allergien …"></textarea></div>
+        <div class="voll"><button class="btn btn--gruen" type="submit">Plätze reservieren</button><p class="demo-hinweis">Demo-Formular: Es werden keine Daten übertragen.</p></div>
+      </form>
+      <div class="bestaetigung" id="xmas-ok" role="status">
+        <img src="~/assets/logo/heidehof-zeichen-gruen.svg" alt="" width="120" height="52" style="margin:0 auto 20px">
+        <h3>Danke, <span data-name>du</span> – wir sehen uns am 20. Dezember!</h3>
+        <p>Der Weihnachtsmann ist schon informiert. Eine Bestätigung kommt per E-Mail.</p>
+        <p class="demo-hinweis">(Demo – es wurde keine Reservierung übermittelt.)</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sektion">
+  <div class="wrap wrap--schmal">
+    <div class="sektion-kopf" data-reveal><p class="kicker">Häufige Fragen</p><h2>Rund um das Weihnachtsfest</h2></div>
+    {faq_html(faq_xmas)}
+  </div>
+</section>
+{cta("Fröhliche Weihnachten aus der Heide.", "Wir freuen uns auf euch – und der Weihnachtsmann sich auch.")}
+"""
+xmas_event = {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "@id": BASE + "weihnachten/#event",
+    "name": "Weihnachtsfest im HEIDEHOF mit Weihnachtsmenü und Weihnachtsmann",
+    "description": "Festliches 4-Gänge-Weihnachtsmenü für 50 € pro Person, Kinder-Weihnachtsmenü für 19 € und Besuch vom Weihnachtsmann um 14 und 19 Uhr im Familienwirtshaus HEIDEHOF in Lüneburg.",
+    "startDate": XMAS_DATUM + "T12:00:00+01:00",
+    "endDate": XMAS_DATUM + "T21:00:00+01:00",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "image": [BASE + "assets/img/weihnachtsbaum-1600.webp", BASE + "assets/img/familie-weihnachtsbaum-1600.webp"],
+    "location": {"@type": "Restaurant", "@id": BASE + "#restaurant", "name": NAME_LANG,
+                 "address": {"@type": "PostalAddress", "streetAddress": STRASSE, "postalCode": PLZ, "addressLocality": ORT, "addressRegion": "Niedersachsen", "addressCountry": "DE"}},
+    "organizer": {"@type": "Organization", "name": NAME_LANG, "url": BASE},
+    "offers": [
+        {"@type": "Offer", "name": "Weihnachtsmenü (4 Gänge)", "price": "50.00", "priceCurrency": "EUR", "availability": "https://schema.org/LimitedAvailability", "url": BASE + "weihnachten/", "validFrom": "2026-11-02"},
+        {"@type": "Offer", "name": "Kinder-Weihnachtsmenü (bis 12 Jahre)", "price": "19.00", "priceCurrency": "EUR", "availability": "https://schema.org/LimitedAvailability", "url": BASE + "weihnachten/", "validFrom": "2026-11-02"},
+    ],
+    "inLanguage": "de",
+}
+SEITEN.append({
+    "pfad": "weihnachten/",
+    "titel": "Weihnachtsmenü Lüneburg am 20.12. mit Weihnachtsmann | HEIDEHOF",
+    "og_titel": "Weihnachtsfest im HEIDEHOF: Weihnachtsmenü für 50 € & der Weihnachtsmann kommt",
+    "beschreibung": "Weihnachtsfest im HEIDEHOF Lüneburg am 20. Dezember: 4-Gänge-Weihnachtsmenü für 50 €, Kinder-Menü & Besuch vom Weihnachtsmann. Jetzt Plätze reservieren!",
+    "preload": "weihnachtsbaum",
+    "inhalt": xmas,
+    "schema": [xmas_event, faq_schema(faq_xmas), brotkrumen_schema([("", "Start"), ("weihnachten/", "Weihnachtsfest")])],
+})
+
 # ---------------------------------------------------------------- Englisch
 en = f"""
 <header class="seiten-hero">
@@ -1202,7 +1378,7 @@ def main():
     for s in SEITEN:
         print("✓", os.path.relpath(seite_rendern(s), ROOT))
     urls = [s for s in SEITEN if not s.get("noindex")]
-    prio = {"": "1.0", "speisekarte/": "0.9", "reservieren/": "0.8"}
+    prio = {"": "1.0", "speisekarte/": "0.9", "weihnachten/": "0.9", "reservieren/": "0.8"}
     eintraege = "".join(
         f"<url><loc>{BASE}{s['pfad']}</loc><lastmod>{HEUTE}</lastmod><priority>{prio.get(s['pfad'], '0.7')}</priority></url>\n"
         for s in urls

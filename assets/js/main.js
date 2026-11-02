@@ -170,6 +170,11 @@
     });
   });
 
+  /* Zeitlich begrenzte Aktionen nach Ablauf ausblenden */
+  document.querySelectorAll("[data-bis]").forEach(function (el) {
+    if (new Date() >= new Date(el.getAttribute("data-bis") + "T00:00:00")) el.hidden = true;
+  });
+
   /* Jahr im Footer */
   document.querySelectorAll("[data-jahr]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
 })();

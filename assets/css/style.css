@@ -40,6 +40,7 @@ body {
   overflow-x: hidden;
 }
 img, svg, video { display: block; max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
 a { color: var(--gruen); text-decoration-color: var(--violett); text-decoration-thickness: 1px; text-underline-offset: 3px; }
 a:hover { color: var(--violett); }
 :focus-visible { outline: 2px solid var(--violett); outline-offset: 3px; }
@@ -112,8 +113,8 @@ body.hat-hero .site-header:not(.ist-fest) .marke-dunkel, .nav-offen .marke-dunke
 .marke-text small { font-family: var(--sans); font-weight: 500; font-size: .58rem; letter-spacing: .26em; text-transform: uppercase; margin-top: 5px; opacity: .85; }
 .marke:hover { color: inherit; }
 
-.hauptnav ul { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: clamp(14px, 1.6vw, 28px); }
-.hauptnav a { font-family: var(--sans); font-weight: 600; font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; color: inherit; text-decoration: none; padding: 8px 0; position: relative; }
+.hauptnav ul { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: clamp(14px, 1.5vw, 26px); }
+.hauptnav a { white-space: nowrap; font-family: var(--sans); font-weight: 600; font-size: .76rem; letter-spacing: .12em; text-transform: uppercase; color: inherit; text-decoration: none; padding: 8px 0; position: relative; }
 .hauptnav a::after { content: ""; position: absolute; left: 0; right: 100%; bottom: 2px; height: 1.5px; background: var(--violett); transition: right .3s; }
 .hauptnav a:hover::after, .hauptnav a[aria-current="page"]::after { right: 0; }
 .hauptnav .btn { min-height: 44px; padding: 10px 20px; }
@@ -123,7 +124,7 @@ body.hat-hero .site-header:not(.ist-fest) .marke-dunkel, .nav-offen .marke-dunke
 body.hat-hero .site-header:not(.ist-fest) .hauptnav .btn { background: var(--creme); color: var(--gruen); }
 .nav-toggle { display: none; }
 
-@media (max-width: 1120px) {
+@media (max-width: 1340px) {
   .nav-toggle {
     display: inline-flex; align-items: center; gap: 10px; background: none; border: 0; color: inherit; cursor: pointer;
     font-family: var(--sans); font-weight: 600; font-size: .75rem; letter-spacing: .18em; text-transform: uppercase; padding: 10px 0; min-height: 44px;
@@ -435,6 +436,41 @@ address { font-style: normal; }
   .mobil-cta .btn { min-height: 50px; padding: 10px; font-size: .74rem; box-shadow: 0 10px 30px -8px rgba(0,0,0,.45); }
   .site-footer { padding-bottom: 96px; }
 }
+
+/* Aktion Weihnachten */
+.hauptnav .nav-hervor { color: var(--violett); }
+body.hat-hero .site-header:not(.ist-fest) .hauptnav .nav-hervor { color: var(--sand); }
+@media (max-width: 1340px) { .hauptnav .nav-hervor, body.hat-hero .site-header:not(.ist-fest) .hauptnav .nav-hervor { color: var(--violett-hell); } }
+.event-teaser { background: var(--violett); color: var(--creme); padding: clamp(36px, 5vw, 56px) 0; position: relative; overflow: hidden; }
+.event-teaser::before { content: "✦  ✧  ✦  ✧  ✦  ✧  ✦  ✧  ✦  ✧  ✦  ✧  ✦  ✧  ✦"; position: absolute; top: 10px; left: 0; right: 0; text-align: center; letter-spacing: 1.6em; opacity: .16; font-size: .8rem; white-space: nowrap; }
+.event-teaser-innen { display: grid; grid-template-columns: auto 1fr auto; gap: clamp(20px, 4vw, 48px); align-items: center; }
+.event-teaser h2 { color: var(--creme); font-size: clamp(1.4rem, 2.6vw, 2.1rem); margin-bottom: .35em; }
+.event-teaser p { margin: 0; opacity: .92; }
+.event-teaser .kicker { color: var(--sand); margin-bottom: 10px; }
+@media (max-width: 860px) { .event-teaser-innen { grid-template-columns: auto 1fr; } .event-teaser .btn { grid-column: 1 / -1; justify-self: start; } }
+@media (max-width: 520px) { .event-teaser-innen { grid-template-columns: 1fr; } }
+.event-datum { display: grid; justify-items: center; align-content: center; width: 116px; height: 128px; background: var(--creme); color: var(--gruen); border-radius: var(--radius); box-shadow: var(--schatten); font-family: var(--sans); text-transform: uppercase; }
+.event-datum strong { font-size: 3.2rem; line-height: 1; font-weight: 700; color: var(--violett); }
+.event-datum span { font-size: .68rem; letter-spacing: .2em; font-weight: 600; }
+.fakten { display: grid; grid-template-columns: auto repeat(3, 1fr); gap: clamp(24px, 4vw, 56px); align-items: center; }
+.fakt strong { display: block; font-family: var(--sans); font-weight: 600; font-size: clamp(1.8rem, 3.4vw, 2.8rem); color: var(--creme); line-height: 1.1; margin-bottom: 8px; }
+.fakt span { opacity: .85; font-size: .95rem; }
+@media (max-width: 860px) { .fakten { grid-template-columns: 1fr 1fr; } }
+.seiten-hero--weihnacht::before { background: linear-gradient(180deg, rgba(20,42,31,.6) 0%, rgba(20,42,31,.3) 35%, rgba(20,42,31,.94) 100%); }
+.menuekarte { background: var(--creme-hell); border: 1px solid var(--linie); outline: 1px solid var(--linie); outline-offset: -14px; padding: clamp(36px, 5vw, 64px) clamp(24px, 4vw, 52px); text-align: center; box-shadow: var(--schatten); border-radius: var(--radius); }
+.menuekarte .kicker { justify-content: center; }
+.menuekarte-logo { width: 110px; margin: 0 auto 18px; }
+.menuekarte h3 { font-family: var(--serif); font-weight: 700; font-size: 1.12rem; margin: 0 0 .25em; }
+.menuekarte .gang-art { font-family: var(--sans); font-weight: 600; font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--violett); margin: 0 0 6px; }
+.menuekarte .gang-text { font-style: italic; color: var(--text-leise); font-size: .93rem; margin: 0 0 14px; }
+.gang-trenner { display: block; color: var(--sand-dunkel); margin: 6px 0 18px; }
+.menuekarte-preis { font-family: var(--sans); font-weight: 600; font-size: 1.3rem; color: var(--gruen); border-top: 1px solid var(--linie); padding-top: 18px; margin: 18px 0 0; }
+.zeitstrahl { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 2px solid var(--gruen); }
+.zeitstrahl li { position: relative; padding: 28px 20px 0 0; }
+.zeitstrahl li::before { content: ""; position: absolute; top: -9px; left: 0; width: 16px; height: 16px; border-radius: 50%; background: var(--violett); border: 3px solid var(--creme); }
+.zeitstrahl strong { display: block; font-family: var(--sans); font-weight: 600; font-size: 1.4rem; color: var(--gruen); margin-bottom: 6px; }
+.zeitstrahl span { font-size: .95rem; color: var(--text-leise); }
+@media (max-width: 760px) { .zeitstrahl { grid-template-columns: 1fr; border-top: 0; border-left: 2px solid var(--gruen); } .zeitstrahl li { padding: 0 0 26px 26px; } .zeitstrahl li::before { left: -9px; top: 4px; } }
 
 /* Rechtstexte */
 .rechtstext h2 { font-size: 1.4rem; margin-top: 2em; }

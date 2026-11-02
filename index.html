@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gleich geht's los</title>
+  <style>
+    :root { color-scheme: dark; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      display: grid; place-items: center; text-align: center;
+      background: radial-gradient(ellipse at center, #2a1a10 0%, #0d0907 70%);
+      color: #f3e9dc; font-family: Georgia, "Times New Roman", serif;
+      padding: 0 16px;
+    }
+    .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%;
+      background: #e0a25a; margin-bottom: 24px; animation: pulse 1.6s ease-in-out infinite; }
+    h1 { font-weight: normal; font-size: clamp(1.8rem, 5vw, 3.2rem); margin: 0 0 12px; letter-spacing: .02em; }
+    p { margin: 0; color: #c9b8a3; font-family: system-ui, sans-serif; font-size: 1rem; }
+    @keyframes pulse { 0%,100% { opacity: .35; transform: scale(.9); } 50% { opacity: 1; transform: scale(1.15); } }
+  </style>
+</head>
+<body>
+  <main>
+    <span class="dot" aria-hidden="true"></span>
+    <h1>Hier entsteht gleich unser Restaurant</h1>
+    <p>Live im Workshop. Einfach diese Seite später neu laden.</p>
+  </main>
+</body>
+</html>
